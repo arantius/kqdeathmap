@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Killer Queen - Death Heatmap</title>
+</head>
+<body>
+
+<!-- TODO: Switch maps.-->
+<div id="map" style="width: 960px; margin: auto;">
+<img src="map_day.png" width="960" height="540">
+</div>
+
+<script src='heatmap.min.js'></script>
+<script>
+'use strict';
+const machineId = Math.round(Math.random() * 9999 + 1);
+const players = ['Queen', 'Stripes', 'Abs', 'Skulls', 'Checks'];
+const colors = ['Gold', 'Blue'];
+const sockDebug = true;
+
+
+let heatmap = h337.create({
+  'container': document.getElementById('map'),
+  'radius': 30,
+});
+
+
+function sockSend(k, v) {
+  let vs = JSON.stringify(v);
+  let d = `![k[${k}],v[${vs}]]!`;
+  if (sockDebug) console.log('>>> WS sending:', d);
+  sock.send(d);
+}
+
+const sock = new WebSocket('ws://localhost:12749');
+sock.onopen = event => {
+  if (sockDebug) console.log('socket opened!', event);
+  sockSend('connect', {'name': 'null', 'isGameMachine': false});
+};
+sock.onclose = event => {
+  console.log('socket closed!', event);
+};
+sock.onmessage = event => {
+  if (sockDebug) console.log('<<< WS received:', event.data);
+  let m = event.data.match(/!\[k\[(.*?)\],v\[(.*)?\]\]!/);
+  if (!m) {
+    console.warn('Could not parse socket message data!\n', event);
+    return;
+  }
+  let [_, k, v] = m;
+  switch (k) {
+  case 'connected':
+    console.log('connected; ', event.data);
+    break;
+  case 'alive':
+    sockSend('im alive', null);
+    break;
+  case 'playerKill':
+    let [x, y, _1, _2] = event.data.split(',');
+    x = parseFloat(x, 10) / 2;
+    y = 540 - parseFloat(y, 10) / 2;
+    heatmap.addData({'x': x, 'y': y, 'value': 1})
+    break;
+  case 'playernames':
+    console.log('players:', new Date(), v);
+    break;
+  default:
+    console.log('unhandled message: ', k, '=', v);
+    break;
+  }
+};
+</script>
+</body>
+</html>
