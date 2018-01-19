@@ -11,7 +11,7 @@
 <img src="map_day.png" width="960" height="540">
 </div>
 
-<script src='heatmap.min.js'></script>
+<script src='heatmap.js'></script>
 <script>
 'use strict';
 
@@ -69,22 +69,106 @@ const fakeKills = [
 
 let heatmap = h337.create({
   'container': document.getElementById('map'),
-  'radius': 30,
-});
-heatmap.setDataMax(50);
+  'radius': 40,
 
-let w = 0;
-for (let vin of fakeKills) {
-  let [x, y, _1, _2] = vin.split(',');
-  x = parseFloat(x, 10) / 2;
-  y = 540 - parseFloat(y, 10) / 2 - 10;
-  setTimeout(
-      () => {
-        console.log('add', x, y);
-        heatmap.addData({'x': x, 'y': y, 'value': 3})
-      },
-      w);
-  w += 200;
+});
+//heatmap.setDataMax(1);
+//heatmap.setDataMax(10);
+
+if (0) {
+  let w = 0;
+  for (let vin of fakeKills) {
+    let [x, y, _1, _2] = vin.split(',');
+    x = parseFloat(x, 10) / 2;
+    y = 540 - parseFloat(y, 10) / 2 - 10;
+    setTimeout(
+        () => {
+          console.log('add', x, y);
+          heatmap.addData({'x': x, 'y': y})
+        },
+        w);
+    w += 200;
+  }
+} else if (1) {
+  fetch('data.js')
+      .then(r => r.json())
+      .then(v => v.data)
+      .then(data => {
+        let timer = setInterval(() => {
+          let v = data.shift();
+          if (!v) {
+            console.log('done');
+            clearTimeout(timer);
+            return;
+          }
+          //console.log(v);
+          let d = {'x': Math.floor(v.x/10)*10, 'y': Math.floor(v.y/10)*10};
+          //console.log(d);
+          heatmap.addData(d);
+        }, 50);
+        //console.log(data);
+        //heatmap.setData(data);
+      });
+} else if (0) {
+    for (let data of [
+          {'x': 1119.0, 'y': 860.0},
+          {'x': 1119.0, 'y': 860.0},
+          {'x': 1090.0, 'y': 860.0},
+          {'x': 1032.0, 'y': 860.0},
+          {'x': 1190.0, 'y': 860.0},
+          {'x': 1150.0, 'y': 860.0},
+          {'x': 1110.0, 'y': 860.0},
+          {'x': 1070.0, 'y': 860.0},
+          {'x': 1110.0, 'y': 860.0},
+          {'x': 1150.0, 'y': 860.0},
+          {'x': 1190.0, 'y': 860.0},
+          {'x': 1110.0, 'y': 860.0},
+          {'x': 1150.0, 'y': 860.0},
+          {'x': 1190.0, 'y': 860.0},
+          {'x': 1070.0, 'y': 860.0},
+          {'x': 1190.0, 'y': 860.0},
+          {'x': 1150.0, 'y': 860.0},
+    ]) {
+      let v = {
+        'x': data.x / 2 , 
+        'y': 540 - (data.y / 2) - 10,
+      };
+      console.log(v);
+      heatmap.addData(v);
+    }
+} else if (1) {
+	var ex1el=document.querySelector('#map');
+	var heatmap1=h337.create( {
+		container:ex1el
+	}
+	);
+	var refreshHeatmap1=function() {
+		var data1= {
+		}
+		;
+		var datap1=[];
+		var max1=0;
+		var w=860;
+		var h=540;
+		var l=250;
+		while(l--) {
+			var val=1;//Math.random()*10;
+			max1=Math.max(max1,val);
+			var d= {
+				x:Math.floor(Math.random()*w),y:Math.floor(Math.random()*h),value:val
+			}
+			;
+			datap1.push(d);
+		}
+		data1["max"]=max1;
+		data1["data"]=datap1;
+		heatmap1.setData(data1);
+	}
+	;
+	refreshHeatmap1();
+	ex1el.onclick=function() {
+		refreshHeatmap1();
+	}
 }
 </script>
 </body>
