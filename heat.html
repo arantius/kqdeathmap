@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Killer Queen - Death Heatmap</title>
+</head>
+<body>
+<!-- TODO: Switch maps.-->
+
+<div id="map" style="width: 960px; margin: auto;">
+<img src="map_day.png" width="960" height="540">
+</div>
+
+<script src='heatmap.min.js'></script>
+<script>
+'use strict';
+
+const players = ['Queen', 'Stripes', 'Abs', 'Skulls', 'Checks'];
+const colors = ['Gold', 'Blue'];
+
+const fakeKills = [
+    '1119,860,1,8',
+    '1119,860,1,10',
+    '1090,860,1,6',
+    '1032,860,1,4',
+    '1190,860,1,8',
+    '1150,860,1,10',
+    '1110,860,1,6',
+    '1070,860,1,4',
+    '1110,860,1,6',
+    '1150,860,1,10',
+    '1190,860,1,8',
+    '1110,860,1,10',
+    '1150,860,1,6',
+    '1190,860,1,4',
+    '1070,860,1,8',
+    '1190,860,1,10',
+    '1150,860,1,6',
+    '1110,860,1,4',
+    '1070,860,1,8',
+    '1070,860,1,8',
+    '1110,860,1,4',
+    '1150,860,1,6',
+    '1190,860,1,10',
+    '1070,860,1,10',
+    '1110,860,1,6',
+    '1150,860,1,4',
+    '1190,860,1,8',
+    '1070,860,1,8',
+    '1110,860,1,4',
+    '1150,860,1,6',
+    '1190,860,1,10',
+    '1070,860,1,10',
+    '1110,860,1,6',
+    '1150,860,1,4',
+    '1190,860,1,8',
+    '1070,860,1,8',
+    '1110,860,1,4',
+    '1150,860,1,6',
+    '1190,860,1,10',
+    '1182.2,21,1,2',
+    '1100,861,1,2',
+    '1110,860,1,6',
+    '1070,860,1,10',
+    '1150,860,1,4',
+    '1150,860,1,10',
+    '1030,861,1,2',
+    ];
+
+let heatmap = h337.create({
+  'container': document.getElementById('map'),
+  'radius': 30,
+});
+heatmap.setDataMax(50);
+
+let w = 0;
+for (let vin of fakeKills) {
+  let [x, y, _1, _2] = vin.split(',');
+  x = parseFloat(x, 10) / 2;
+  y = 540 - parseFloat(y, 10) / 2 - 10;
+  setTimeout(
+      () => {
+        console.log('add', x, y);
+        heatmap.addData({'x': x, 'y': y, 'value': 3})
+      },
+      w);
+  w += 200;
+}
+</script>
+</body>
+</html>
