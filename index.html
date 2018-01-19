@@ -17,13 +17,14 @@
 const machineId = Math.round(Math.random() * 9999 + 1);
 const players = ['Queen', 'Stripes', 'Abs', 'Skulls', 'Checks'];
 const colors = ['Gold', 'Blue'];
-const sockDebug = true;
+const sockDebug = false;
 
 
 let heatmap = h337.create({
   'container': document.getElementById('map'),
   'radius': 30,
 });
+heatmap.setDataMax(25);
 
 
 function sockSend(k, v) {
@@ -57,10 +58,10 @@ sock.onmessage = event => {
     sockSend('im alive', null);
     break;
   case 'playerKill':
-    let [x, y, _1, _2] = event.data.split(',');
+    let [x, y, _1, _2] = v.split(',');
     x = parseFloat(x, 10) / 2;
-    y = 540 - parseFloat(y, 10) / 2;
-    heatmap.addData({'x': x, 'y': y, 'value': 1})
+    y = (540 - parseFloat(y, 10) / 2) - 10;
+    heatmap.addData({'x': x, 'y': y, 'value': 3})
     break;
   case 'playernames':
     console.log('players:', new Date(), v);
