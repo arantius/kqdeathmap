@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
+<link rel="shortcut icon" href="death.gif" type="image/gif" />
 <title>Killer Queen - Death Heatmap</title>
 </head>
 <body>
@@ -15,7 +16,6 @@
     id="canvas"></canvas>
 </div>
 
-<script src='heatmap.js'></script>
 <script src='simpleheat.js'></script>
 <script>
 'use strict';
@@ -23,177 +23,16 @@
 const players = ['Queen', 'Stripes', 'Abs', 'Skulls', 'Checks'];
 const colors = ['Gold', 'Blue'];
 
-const fakeKills = [
-    '1119,860,1,8',
-    '1119,860,1,10',
-    '1090,860,1,6',
-    '1032,860,1,4',
-    '1190,860,1,8',
-    '1150,860,1,10',
-    '1110,860,1,6',
-    '1070,860,1,4',
-    '1110,860,1,6',
-    '1150,860,1,10',
-    '1190,860,1,8',
-    '1110,860,1,10',
-    '1150,860,1,6',
-    '1190,860,1,4',
-    '1070,860,1,8',
-    '1190,860,1,10',
-    '1150,860,1,6',
-    '1110,860,1,4',
-    '1070,860,1,8',
-    '1070,860,1,8',
-    '1110,860,1,4',
-    '1150,860,1,6',
-    '1190,860,1,10',
-    '1070,860,1,10',
-    '1110,860,1,6',
-    '1150,860,1,4',
-    '1190,860,1,8',
-    '1070,860,1,8',
-    '1110,860,1,4',
-    '1150,860,1,6',
-    '1190,860,1,10',
-    '1070,860,1,10',
-    '1110,860,1,6',
-    '1150,860,1,4',
-    '1190,860,1,8',
-    '1070,860,1,8',
-    '1110,860,1,4',
-    '1150,860,1,6',
-    '1190,860,1,10',
-    '1182.2,21,1,2',
-    '1100,861,1,2',
-    '1110,860,1,6',
-    '1070,860,1,10',
-    '1150,860,1,4',
-    '1150,860,1,10',
-    '1030,861,1,2',
-    ];
+let heat = simpleheat('canvas').max(12).radius(25, 40);
 
-let heatmap = h337.create({
-  'container': document.getElementById('map'),
-  'radius': 40,
+fetch('kills.txt')
+    .then(r => r.text())
+    .then(str => {
+      for (let line of str.split('\n')) {
+        console.log('line', line);
+      }
+    });
 
-});
-//heatmap.setDataMax(1);
-//heatmap.setDataMax(10);
-
-if (0) {
-  let w = 0;
-  for (let vin of fakeKills) {
-    let [x, y, _1, _2] = vin.split(',');
-    x = parseFloat(x, 10) / 2;
-    y = 540 - parseFloat(y, 10) / 2 - 10;
-    setTimeout(
-        () => {
-          console.log('add', x, y);
-          heatmap.addData({'x': x, 'y': y})
-        },
-        w);
-    w += 200;
-  }
-} else if (0) {
-  fetch('data.js')
-      .then(r => r.json())
-      .then(v => v.data)
-      .then(data => {
-        let timer = setInterval(() => {
-          let v = data.shift();
-          if (!v) {
-            console.log('done');
-            clearTimeout(timer);
-            return;
-          }
-          //console.log(v);
-          let d = {'x': Math.floor(v.x/10)*10, 'y': Math.floor(v.y/10)*10};
-          //console.log(d);
-          heatmap.addData(d);
-        }, 50);
-        //console.log(data);
-        //heatmap.setData(data);
-      });
-} else if (1) {
-  let heat = simpleheat('canvas').max(12).radius(25, 40);
-  fetch('data.js')
-      .then(r => r.json())
-      .then(v => v.data)
-      .then(data => {
-        let timer = setInterval(() => {
-          let v = data.shift();
-          if (!v) {
-            console.log('done');
-            clearTimeout(timer);
-            return;
-          }
-          heat.add([Math.floor(v.x), Math.floor(v.y), 2]);
-          heat.draw();
-        }, 25);
-        //console.log(data);
-        //heatmap.setData(data);
-      });
-} else if (0) {
-    for (let data of [
-          {'x': 1119.0, 'y': 860.0},
-          {'x': 1119.0, 'y': 860.0},
-          {'x': 1090.0, 'y': 860.0},
-          {'x': 1032.0, 'y': 860.0},
-          {'x': 1190.0, 'y': 860.0},
-          {'x': 1150.0, 'y': 860.0},
-          {'x': 1110.0, 'y': 860.0},
-          {'x': 1070.0, 'y': 860.0},
-          {'x': 1110.0, 'y': 860.0},
-          {'x': 1150.0, 'y': 860.0},
-          {'x': 1190.0, 'y': 860.0},
-          {'x': 1110.0, 'y': 860.0},
-          {'x': 1150.0, 'y': 860.0},
-          {'x': 1190.0, 'y': 860.0},
-          {'x': 1070.0, 'y': 860.0},
-          {'x': 1190.0, 'y': 860.0},
-          {'x': 1150.0, 'y': 860.0},
-    ]) {
-      let v = {
-        'x': data.x / 2 , 
-        'y': 540 - (data.y / 2) - 10,
-      };
-      console.log(v);
-      heatmap.addData(v);
-    }
-} else if (1) {
-	var ex1el=document.querySelector('#map');
-	var heatmap1=h337.create( {
-		container:ex1el
-	}
-	);
-	var refreshHeatmap1=function() {
-		var data1= {
-		}
-		;
-		var datap1=[];
-		var max1=0;
-		var w=860;
-		var h=540;
-		var l=250;
-		while(l--) {
-			var val=1;//Math.random()*10;
-			max1=Math.max(max1,val);
-			var d= {
-				x:Math.floor(Math.random()*w),y:Math.floor(Math.random()*h),value:val
-			}
-			;
-			datap1.push(d);
-		}
-		data1["max"]=max1;
-		data1["data"]=datap1;
-		heatmap1.setData(data1);
-	}
-	;
-	refreshHeatmap1();
-	ex1el.onclick=function() {
-		refreshHeatmap1();
-	}
-}
 </script>
 </body>
 </html>
