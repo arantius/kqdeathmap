@@ -2,16 +2,21 @@
 <html>
 <head>
 <meta charset="utf-8">
+<link rel="shortcut icon" href="berry.png" type="image/png" />
 <title>Killer Queen - Death Heatmap</title>
 </head>
 <body>
 
 <!-- TODO: Switch maps.-->
-<div id="map" style="width: 960px; margin: auto;">
-<img src="map_day.png" width="960" height="540">
+<div id="map" style="width: 960px; margin: auto; position: relative;">
+  <img src="map_day.png" width="960" height="540">
+  <canvas
+      width="960" height="540"
+    style="position: absolute; top: 0; left: 0; opacity: 0.7;"
+      id="canvas"></canvas>
 </div>
 
-<script src='heatmap.min.js'></script>
+<script src='simpleheat.js'></script>
 <script>
 'use strict';
 const machineId = Math.round(Math.random() * 9999 + 1);
@@ -20,11 +25,7 @@ const colors = ['Gold', 'Blue'];
 const sockDebug = false;
 
 
-let heatmap = h337.create({
-  'container': document.getElementById('map'),
-  'radius': 30,
-});
-heatmap.setDataMax(25);
+let heat = simpleheat('canvas').max(12).radius(25, 40);
 
 
 function sockSend(k, v) {
@@ -58,10 +59,13 @@ sock.onmessage = event => {
     sockSend('im alive', null);
     break;
   case 'playerKill':
+    console.log('kill:', v);
+    localStorage.setItem('kill_day_' + new Date().valueOf(), v);
     let [x, y, _1, _2] = v.split(',');
-    x = parseFloat(x, 10) / 2;
-    y = (540 - parseFloat(y, 10) / 2) - 10;
-    heatmap.addData({'x': x, 'y': y, 'value': 3})
+    x = Math.floor(parseFloat(x, 10) / 2);
+    y = Math.floor((540 - parseFloat(y, 10) / 2) - 10);
+    heat.add([x, y, 2]);
+    heat.draw();
     break;
   case 'playernames':
     console.log('players:', new Date(), v);
