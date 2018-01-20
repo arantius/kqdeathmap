@@ -11,7 +11,7 @@
 <img src="map_day.png" width="960" height="540">
 <canvas 
     width="960" height="540"
-    style="position: absolute; top: 0; left: 0;"
+    style="position: absolute; top: 0; left: 0; opacity: 0.7;"
     id="canvas"></canvas>
 </div>
 
@@ -115,7 +115,7 @@ if (0) {
         //heatmap.setData(data);
       });
 } else if (1) {
-  let heat = simpleheat('canvas').max(10).radius(20);
+  let heat = simpleheat('canvas').max(12).radius(25, 40);
   fetch('data.js')
       .then(r => r.json())
       .then(v => v.data)
@@ -127,9 +127,9 @@ if (0) {
             clearTimeout(timer);
             return;
           }
-          heat.add([v.x, v.y, 2]);
+          heat.add([Math.floor(v.x), Math.floor(v.y), 2]);
           heat.draw();
-        }, 50);
+        }, 25);
         //console.log(data);
         //heatmap.setData(data);
       });
