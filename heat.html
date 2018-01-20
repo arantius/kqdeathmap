@@ -23,14 +23,24 @@
 const players = ['Queen', 'Stripes', 'Abs', 'Skulls', 'Checks'];
 const colors = ['Gold', 'Blue'];
 
+// https://github.com/mourner/simpleheat#simpleheat
 let heat = simpleheat('canvas').max(12).radius(25, 40);
+
+
+function addKill(v) {
+  let [x, y, attacker, victim] = v.split(',');
+  heat.add([x, y, 2]);
+}
+
 
 fetch('kills.txt')
     .then(r => r.text())
     .then(str => {
       for (let line of str.split('\n')) {
-        console.log('line', line);
+        let m = line.match(/^kill_day_[0-9]+ (.*)/);
+        if (m) addKill(m[1]);
       }
+      heat.draw(0.35);
     });
 
 </script>
