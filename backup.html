@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="shortcut icon" href="death.gif" type="image/gif" />
+<title>Killer Queen - Death Heatmap</title>
+</head>
+<body>
+
+<center>
+<button onclick="backup()">Back up localStorage -&gt; textarea</button>
+<button onclick="restore()">Restore textarea -&gt; localStorage</button>
+<br>
+<textarea cols="80" rows="24" id="ta"></textarea>
+</center>
+
+<script>
+'use strict';
+
+const ta = document.getElementById('ta');
+function backup() {
+  ta.value = '';
+  for (let i = 0, k = null; k = localStorage.key(i); i++) {
+    let v = localStorage.getItem(k);
+    ta.value += `${k} ${v}\n`;
+  }
+}
+
+function restore() {
+  localStorage.clear();
+  for (let line of ta.value.split('\n')) {
+    let [k, v] = line.split(' ', 2);
+    localStorage.setItem(k, v);
+  }
+}
+</script>
+</body>
+</html>
