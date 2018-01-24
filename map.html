@@ -37,6 +37,7 @@ let gHeat = simpleheat('canvas').max(12).radius(25, 40);
 
 function mapKill(v) {
   let [x, y, _1, _2] = v.split(',');
+  if (y == 11) return;  // Day/dusk snail eat location.
   x = Math.floor(parseFloat(x, 10) / 2);
   y = Math.floor((540 - parseFloat(y, 10) / 2) - 16);
   gHeat.add([x, y, 2]);
