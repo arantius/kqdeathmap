@@ -110,7 +110,7 @@ function sockMessage(event) {
     break;
   case 'playerKill':
     console.log('kill:', v);
-    localStorage.setItem(`kill_${map}_${new Date().valueOf()}`, v);
+    localStorage.setItem(`kill_${gMap}_${new Date().valueOf()}`, v);
     mapKill(v);
     gHeat.draw(mapOpac);
     break;
