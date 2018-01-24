@@ -6,43 +6,81 @@
 <title>Killer Queen - Death Heatmap</title>
 </head>
 <body>
-<!-- TODO: Switch maps.-->
 
-<div id="map" style="width: 960px; margin: auto; position: relative;">
-<img src="map_day.png" width="960" height="540">
-<canvas 
-    width="960" height="540"
-    style="position: absolute; top: 0; left: 0; opacity: 0.7;"
-    id="canvas"></canvas>
+<p><center>
+  <button onclick="setMap('day')"><u>D</u>ay</button>
+  <button onclick="setMap('night')"><u>N</u>ight</button>
+  <button onclick="setMap('dusk')">D<u>u</u>sk</button>
+</center></p>
+
+<div style="width: 960px; margin: auto; position: relative;">
+  <img id="map" src="map_day.png" width="960" height="540">
+  <canvas id="canvas" width="960" height="540"
+      style="position: absolute; top: 0; left: 0; opacity: 0.7;"
+      ></canvas>
 </div>
 
 <script src='simpleheat.js'></script>
 <script>
 'use strict';
-
+const machineId = Math.round(Math.random() * 9999 + 1);
 const players = ['Queen', 'Stripes', 'Abs', 'Skulls', 'Checks'];
 const colors = ['Gold', 'Blue'];
-
-// https://github.com/mourner/simpleheat#simpleheat
-let heat = simpleheat('canvas').max(12).radius(25, 40);
+const sockDebug = false;
 
 
-function addKill(v) {
-  let [x, y, attacker, victim] = v.split(',');
-  heat.add([x, y, 2]);
+let gMap = null;
+let gSock = null;
+let gHeat = simpleheat('canvas').max(12).radius(25, 40);
+let mapOpac = 0.25;
+
+
+function mapKill(v) {
+  let [x, y, _1, _2] = v.split(',');
+  if (y == 11) return;  // Day/dusk snail eat location.
+  x = Math.floor(parseFloat(x, 10) / 2);
+  y = Math.floor((540 - parseFloat(y, 10) / 2) - 16);
+  gHeat.add([x, y, 2]);
 }
 
 
-fetch('kills.txt')
-    .then(r => r.text())
-    .then(str => {
-      for (let line of str.split('\n')) {
-        let m = line.match(/^kill_day_[0-9]+ (.*)/);
-        if (m) addKill(m[1]);
-      }
-      heat.draw(0.35);
-    });
+function setMap(m) {
+  if (m == gMap) return;
+  gMap = m;
+  document.getElementById('map').setAttribute('src', `map_${m}.png`);
 
+  gHeat.clear();
+  fetch('kills.txt')
+      .then(r => r.text())
+      .then(str => {
+        for (let line of str.split('\n')) {
+          let m = line.match(/^kill_day_[0-9]+ (.*)/);
+          if (m) mapKill(m[1]);
+        }
+        gHeat.draw(mapOpac);
+      });
+}
+window.addEventListener('keypress', e => {
+  switch (e.key) {
+    case 'd': setMap('day'); break;
+    case 'n': setMap('night'); break;
+    case 'u': setMap('dusk'); break;
+    case 'ArrowDown':
+        mapOpac -= 0.01;
+        console.log('drawing heatmap with opacity:', mapOpac);
+        gHeat.draw(mapOpac);
+        break;
+    case 'ArrowUp':
+        mapOpac += 0.01;
+        console.log('drawing heatmap with opacity:', mapOpac);
+        gHeat.draw(mapOpac);
+        break;
+    default: console.log(e.key);
+  }
+}, false);
+
+
+setMap('day');
 </script>
 </body>
 </html>

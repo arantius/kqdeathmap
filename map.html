@@ -24,7 +24,6 @@
 <script>
 'use strict';
 const machineId = Math.round(Math.random() * 9999 + 1);
-const mapOpac = 0.25;
 const players = ['Queen', 'Stripes', 'Abs', 'Skulls', 'Checks'];
 const colors = ['Gold', 'Blue'];
 const sockDebug = false;
@@ -33,6 +32,7 @@ const sockDebug = false;
 let gMap = null;
 let gSock = null;
 let gHeat = simpleheat('canvas').max(12).radius(25, 40);
+let mapOpac = 0.25;
 
 
 function mapKill(v) {
@@ -44,10 +44,18 @@ function mapKill(v) {
 }
 
 
+function changeMapOpac() {
+  console.log('drawing heatmap with opacity:', mapOpac);
+  localStorage.setItem(`opac_${gMap}`, mapOpac);
+  gHeat.draw(mapOpac);
+}
+
+
 function setMap(m) {
   if (m == gMap) return;
   gMap = m;
   document.getElementById('map').setAttribute('src', `map_${m}.png`);
+  mapOpac = parseFloat(localStorage.getItem(`opac_${gMap}`) || '0.25');
 
   gHeat.clear();
   let prefix = `kill_${m}_`;
@@ -60,11 +68,21 @@ function setMap(m) {
   }
   gHeat.draw(mapOpac);
 }
+
+
 window.addEventListener('keypress', e => {
   switch (e.key) {
     case 'd': setMap('day'); break;
     case 'n': setMap('night'); break;
     case 'u': setMap('dusk'); break;
+    case 'ArrowDown':
+        mapOpac -= 0.01;
+        changeMapOpac();
+        break;
+    case 'ArrowUp':
+        mapOpac += 0.01;
+        changeMapOpac();
+        break;
   }
 }, false);
 
