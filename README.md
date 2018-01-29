@@ -9,19 +9,20 @@ that aspect of game play.
 2. Find the IP address or host name assigned to the KQ machine.
 3. Test that value by typing it in to your web browser, you should
    see the Killer Queen Tournament set up screen.
-4. Open https://arantius.github.io/kqdeathmap/map.html
-5. Type in that same IP or host name.
-6. Play!  Pick the day/night/dusk map by clicking the buttons or pressing
+4. Download [kqdeathmap](https://github.com/arantius/kqdeathmap/archive/master.zip)
+   and extract it somewhere.
+5. Open `map.html`.
+6. Type in that same IP or host name.
+7. Play!  Pick the day/night/dusk map by clicking the buttons or pressing
    the underlined keyboard hotkey, so the data is sorted correctly.
 
 # Demo
 
-Open https://arantius.github.io/kqdeathmap/demo.html for a quick demo of the
-sort of result you can expect.
+Open `demo.html` for a quick demo of the sort of result you can expect.
 
 # Data Backup
 
-Open https://arantius.github.io/kqdeathmap/backup.html to back up your data.
+Open `backup.html` to back up your data.
 
 Press the first button to load data saved in your browser into the text area
 in the page.  Copy/paste it from there to a safe location.
