@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<link rel="shortcut icon" href="death.gif" type="image/gif" />
+<link rel="shortcut icon" href="img/death.gif" type="image/gif" />
 <title>Killer Queen - Death Heatmap</title>
 </head>
 <body>
@@ -14,7 +14,7 @@
 </center></p>
 
 <div style="width: 960px; margin: auto; position: relative;">
-  <img id="map" src="map_day.png" width="960" height="540">
+  <img id="map" src="img/map_day.png" width="960" height="540">
   <canvas id="canvas" width="960" height="540"
       style="position: absolute; top: 0; left: 0; opacity: 0.7;"
       ></canvas>
@@ -54,7 +54,7 @@ function changeMapOpac() {
 function setMap(m) {
   if (m == gMap) return;
   gMap = m;
-  document.getElementById('map').setAttribute('src', `map_${m}.png`);
+  document.getElementById('map').setAttribute('src', `img/map_${m}.png`);
   mapOpac = parseFloat(localStorage.getItem(`opac_${gMap}`) || '0.25');
 
   gHeat.clear();
