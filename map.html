@@ -4,6 +4,21 @@
 <meta charset="utf-8">
 <link rel="shortcut icon" href="img/death.gif" type="image/gif" />
 <title>Killer Queen - Death Heatmap</title>
+<style>
+#connect {
+  background: rgba(0, 0, 0, 0.4);
+  bottom: 10em;
+  color: white;
+  display: none;
+  left: 10em;
+  min-height: 8em;
+  padding: 4em;
+  position: absolute;
+  right: 10em;
+  text-align: center;
+  top: 10em;
+}
+</style>
 </head>
 <body>
 
@@ -20,15 +35,24 @@
       ></canvas>
 </div>
 
+<form id="connect">
+  <p>Could not connect.  Put the host name or IP address of the KQ machine
+  in this box (you'll need to be on the same network), and then hit go.</p>
+  <p>
+  <input type="text" name="host" size="40">
+  <input type="submit" value="Go">
+</form>
+
 <script src='lib/simpleheat/simpleheat.js'></script>
 <script>
 'use strict';
 const machineId = Math.round(Math.random() * 9999 + 1);
 const players = ['Queen', 'Stripes', 'Abs', 'Skulls', 'Checks'];
 const colors = ['Gold', 'Blue'];
-const sockDebug = false;
+const sockDebug = !false;
 
 
+let gHost = localStorage.host || 'kq.local';
 let gMap = null;
 let gSock = null;
 let gHeat = simpleheat('canvas').max(12).radius(25, 40);
@@ -45,7 +69,7 @@ function mapKill(v) {
 
 
 function changeMapOpac() {
-  console.log('drawing heatmap with opacity:', mapOpac);
+  if (sockDebug) console.log('drawing heatmap with opacity:', mapOpac);
   localStorage.setItem(`opac_${gMap}`, mapOpac);
   gHeat.draw(mapOpac);
 }
@@ -89,12 +113,13 @@ window.addEventListener('keypress', e => {
 
 
 function sockClose(event) {
-  console.log('socket closed!', event);
+  if (sockDebug) console.log('socket closed!', event);
   gSock.close();
-  setTimeout(sockStart, 1500);
+  //setTimeout(sockStart, 1500);
+  showConnectDialog();
 }
 function sockOpen(event) {
-  console.log('socket opened!', event);
+  if (sockDebug) console.log('socket opened!', event);
   sockSend('connect', {'name': 'null', 'isGameMachine': false});
 }
 function sockSend(k, v) {
@@ -104,8 +129,8 @@ function sockSend(k, v) {
   gSock.send(d);
 }
 function sockStart() {
-  console.log('opening socket ...');
-  gSock = new WebSocket('ws://localhost:12749');
+  if (sockDebug) console.log('opening socket ...');
+  gSock = new WebSocket(`ws://${gHost}:12749`);
   gSock.onopen = sockOpen;
   gSock.onclose = sockClose;
   gSock.onmessage = sockMessage;
@@ -122,19 +147,19 @@ function sockMessage(event) {
   let [_, k, v] = m;
   switch (k) {
   case 'connected':
-    console.log('connected; ', event.data);
+    if (sockDebug) console.log('connected; ', event.data);
     break;
   case 'alive':
     sockSend('im alive', null);
     break;
   case 'playerKill':
-    console.log('kill:', v);
+    if (sockDebug) console.log('kill:', v);
     localStorage.setItem(`kill_${gMap}_${new Date().valueOf()}`, v);
     mapKill(v);
     gHeat.draw(mapOpac);
     break;
   case 'playernames':
-    console.log('players:', new Date(), v);
+    if (sockDebug) console.log('players:', new Date(), v);
     break;
   default:
     console.log('unhandled message: ', k, '=', v);
@@ -143,8 +168,24 @@ function sockMessage(event) {
 };
 
 
+function showConnectDialog() {
+  document.getElementById('connect').style.display = 'block';
+  document.querySelector('#connect input[name=host]').value = gHost;
+}
+function handleConnectDialog(event) {
+  event.preventDefault();
+  console.log('handle connect!');
+  gHost = document.querySelector('#connect input[name=host]').value;
+  localStorage.setItem('host', gHost);
+  sockStart();
+  document.getElementById('connect').style.display = 'none';
+}
+document.querySelector('#connect').addEventListener(
+    'submit', handleConnectDialog, false);
+
 setMap('day');
 sockStart();
 </script>
+
 </body>
 </html>
