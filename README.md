@@ -2,7 +2,7 @@ This is a simple tool to read data from a Killer Queen machine and plot the
 locations of in-game kills onto a heatmap, to produce a visualizatio of
 that aspect of game play.
 
-# To Use
+# To Use (the heatmap)
 
 1. Connect your computer in a way that the Killer Queen machine is either
    on the same network, or accessible over the network in some other way.
@@ -16,7 +16,7 @@ that aspect of game play.
 7. Play!  Pick the day/night/dusk map by clicking the buttons or pressing
    the underlined keyboard hotkey, so the data is sorted correctly.
 
-# Demo
+# Demo (of the heatmap)
 
 Open `demo.html` for a quick demo of the sort of result you can expect.
 
@@ -29,3 +29,11 @@ in the page.  Copy/paste it from there to a safe location.
 
 Or press the second button to put what's in the text area into the browser
 storage.  Empty out the box and press this button to reset the saved data.
+
+# Kill/Death Ratio Overlay
+
+1. Edit `kdr.html` near the top to define the right value for `gHost`,
+   just like step two for the heatmap.
+   * It would make sense to open `kdr.html` in a regular browser now, and
+     test that it works!
+2. Add a browser source for OBS, and point it to `kdr.html`.
