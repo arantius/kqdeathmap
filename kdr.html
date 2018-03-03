@@ -187,12 +187,12 @@ function sockMessage(event) {
     break;
   case 'playerKill':
     if (sockDebug) console.log('kill:', v);
-    localStorage.setItem(`${{new Date().valueOf()}_playerKill`, v);
+    localStorage.setItem(`${new Date().valueOf()}_playerKill`, v);
     addKill(v);
     break;
   case 'playernames':
     if (sockDebug) console.log('players:', new Date(), v);
-    localStorage.setItem(`${{new Date().valueOf()}_playerNames`, v);
+    localStorage.setItem(`${new Date().valueOf()}_playerNames`, v);
     init();
     break;
   default:
