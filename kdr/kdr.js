@@ -1,6 +1,7 @@
 'use strict';
 const machineId = Math.round(Math.random() * 9999 + 1);
-const sockDebug = false;
+
+let sockDebug = false;
 
 let gDeaths = Array(11).fill(0);
 let gKills = Array(11).fill(0);
