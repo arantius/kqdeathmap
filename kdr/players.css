@@ -1,0 +1,20 @@
+#player1 { background-image: url(../players/gold-queen.png); }
+#player2 { background-image: url(../players/blue-queen.png); }
+
+.warriors #player3 { background-image: url(../players/gold-stripes.png); }
+.warriors #player4 { background-image: url(../players/blue-stripes.png); }
+.warriors #player5 { background-image: url(../players/gold-abs.png); }
+.warriors #player6 { background-image: url(../players/blue-abs.png); }
+.warriors #player7 { background-image: url(../players/gold-skulls.png); }
+.warriors #player8 { background-image: url(../players/blue-skulls.png); }
+.warriors #player9 { background-image: url(../players/gold-checks.png); }
+.warriors #player10 { background-image: url(../players/blue-checks.png); }
+
+.bears #player3 { background-image: url(../players/gold-bear-stripes.png); }
+.bears #player4 { background-image: url(../players/blue-bear-stripes.png); }
+.bears #player5 { background-image: url(../players/gold-bear-abs.png); }
+.bears #player6 { background-image: url(../players/blue-bear-abs.png); }
+.bears #player7 { background-image: url(../players/gold-bear-skulls.png); }
+.bears #player8 { background-image: url(../players/blue-bear-skulls.png); }
+.bears #player9 { background-image: url(../players/gold-bear-checks.png); }
+.bears #player10 { background-image: url(../players/blue-bear-checks.png); }

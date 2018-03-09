@@ -1,0 +1,10 @@
+html, body {
+  height: 1080px;
+  margin: 0;
+  padding: 0;
+  width: 1920px;
+}
+body {
+  background: transparent;
+  position: relative;
+}

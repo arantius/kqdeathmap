@@ -1,0 +1,45 @@
+/* COPY this file to "look.css".  Edit THAT file to make things look how you like. */
+
+#gold, #blue {
+  color: #bcbcbc;
+  font-family: sans-serif;
+  height: 800px;
+  position: absolute;
+  top: 65px;
+  width: 140px;
+}
+#gold {
+  left: 0;
+}
+#blue {
+  right: -4px;  /* FvF's display isn't *quite* centered. */
+}
+
+.player {
+  background-repeat: no-repeat;
+  background-size: 74px;
+  font-size: 32px;
+  height: 160px;
+  width: 140px;
+}
+#gold .player {
+  background-position: top 35px left 10px;
+}
+#blue .player {
+  background-position: top 35px right 10px;
+}
+#gold #player1 {
+  background-size: 78px;
+  background-position: top 25px left 10px;
+}
+#blue #player2 {
+  background-size: 78px;
+  background-position: top 25px right 10px;
+}
+
+.player .wrap {
+  padding-top: 80px;
+}
+#gold .player .wrap {
+  text-align: right;
+}
