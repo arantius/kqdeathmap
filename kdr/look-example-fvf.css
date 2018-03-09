@@ -43,3 +43,12 @@
 #gold .player .wrap {
   text-align: right;
 }
+
+
+.player.death {
+  animation: death-flash linear 1s;
+}
+@keyframes death-flash {
+  0%   { background-color: rgba(255, 0, 0, 0.8); }
+  100% { background-color: rgba(255, 0, 0, 0.0); }
+}

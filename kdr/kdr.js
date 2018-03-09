@@ -18,7 +18,14 @@ function addKill(v) {
   populate(victor);
   gDeaths[victim]++;
   populate(victim);
+
+  document.getElementById('player' + victim).classList.add('death');
 }
+
+window.addEventListener('animationend', event => {
+  let el = event.target;
+  el.classList.remove('death');
+}, false);
 
 
 function init() {
