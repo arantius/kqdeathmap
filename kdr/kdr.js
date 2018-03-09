@@ -6,6 +6,7 @@ let sockDebug = false;
 let gDeaths = Array(11).fill(0);
 let gKills = Array(11).fill(0);
 let gPlayers = Array(11).fill("");
+let gQueenKills = Array(11).fill(0);
 let gSock = null;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -14,8 +15,14 @@ function addKill(v) {
   let [_1, _2, victor, victim] = v.split(',');
   victor = parseInt(victor, 10);
   victim = parseInt(victim, 10);
+
+  if (victim == 1 || victim == 2) {
+    gQueenKills[victor]++;
+  }
+
   gKills[victor]++;
   populate(victor);
+
   gDeaths[victim]++;
   populate(victim);
 
@@ -35,13 +42,16 @@ function init() {
 
   gDeaths = Array(11).fill(0);
   gKills = Array(11).fill(0);
+  gQueenKills = Array(11).fill(0);
   for (let i = 1; i <= 10; i++) {
     populate(i);
   }
 }
 
 function populate(i) {
+  let eggs = '<div class="egg">&nbsp;</div>'.repeat(gQueenKills[i]);
   document.getElementById('player' + i).innerHTML = `
+      <div class="eggs">${eggs}</div>
       <div class="wrap">
         <sup class="k">${gKills[i]}</sup>
         /

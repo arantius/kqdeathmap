@@ -20,6 +20,7 @@
   background-size: 74px;
   font-size: 32px;
   height: 160px;
+  position: relative;
   width: 140px;
 }
 #gold .player {
@@ -60,4 +61,22 @@
 @keyframes death-flash {
   0%   { background-color: rgba(255, 0, 0, 0.8); }
   100% { background-color: rgba(255, 0, 0, 0.0); }
+}
+
+
+.eggs {
+  height: 34px;
+  position: absolute;
+  top: 21px;
+  white-space: no-wrap;
+}
+#gold .eggs { right: 0; }
+#blue .eggs { left: 0; }
+
+.egg {
+  background: url(../players/cracked-egg.png) no-repeat;
+  display: inline-block;
+  padding: 0 2px;
+  height: 34px;
+  width: 24px;
 }
