@@ -1,57 +1,63 @@
 /* COPY this file to "look.css".  Edit THAT file to make things look how you like. */
 
+html, body {
+  height: 720px !omportant;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  width: 1280px !important;
+}
+
 #gold, #blue {
   color: #bcbcbc;
   font-family: sans-serif;
-  height: 800px;
+  height: 550px;
   position: absolute;
-  top: 65px;
-  width: 140px;
+  top: 60px;
+  width: 90px;
 }
-#gold {
-  left: 0;
-}
-#blue {
-  right: 15px;
-}
+#gold { left: 0; }
+#blue { right: 0; }
 
 .player {
   background-repeat: no-repeat;
-  background-size: 74px;
-  font-size: 32px;
-  height: 160px;
+  font-size: 20px;
+  height: 110px;
   position: relative;
-  width: 140px;
+  width: 90px;
 }
 #gold .player {
-  background-position: top 35px left 10px;
+  background-position: top 8px left 10px;
 }
 #blue .player {
-  background-position: top 35px right 10px;
+  background-position: top 8px right 10px;
 }
 #gold #player1 {
-  background-size: 78px;
-  background-position: top 25px left 10px;
+  background-position: top 5px left 10px;
 }
 #blue #player2 {
-  background-size: 78px;
-  background-position: top 25px right 10px;
+  background-position: top 5px right 10px;
 }
 
+
 .player .wrap {
-  padding-top: 80px;
+  padding-top: 26px;
 }
 #gold .player .wrap {
   text-align: right;
 }
+#player1 .wrap, #player2 .wrap {
+  padding-top: 24px;
+}
+
 
 .player .name {
-	font-size: 22px;
+	font-size: 12px;
 	overflow: hidden;
 	text-align: center;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-  width: 140px;
+  width: 90px;
 }
 
 
@@ -65,9 +71,9 @@
 
 
 .eggs {
-  height: 34px;
+  height: 17px;
   position: absolute;
-  top: 21px;
+  top: 5px;
   white-space: no-wrap;
 }
 #gold .eggs { right: 0; }
@@ -75,8 +81,9 @@
 
 .egg {
   background: url(../players/cracked-egg.png) no-repeat;
+  background-size: 12px;
   display: inline-block;
-  padding: 0 2px;
-  height: 34px;
-  width: 24px;
+  padding: 0 1px;
+  height: 17px;
+  width: 12px;
 }
