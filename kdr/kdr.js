@@ -124,7 +124,7 @@ init();
 if (1) {
   sockStart();
 } else {
-  fetch('kills.txt')
+  fetch('../kills.txt')
       .then(r => r.text())
       .then(str => {
         let lines = str.split('\n');
