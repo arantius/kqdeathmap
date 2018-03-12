@@ -121,9 +121,7 @@ function sockMessage(event) {
 ///////////////////////////////////////////////////////////////////////////////
 
 init();
-if (1) {
-  sockStart();
-} else {
+if (gDemoMode) {
   fetch('../kills.txt')
       .then(r => r.text())
       .then(str => {
@@ -135,4 +133,6 @@ if (1) {
           if (i++ == 33) break;
         }
       });
+} else {
+  sockStart();
 }
