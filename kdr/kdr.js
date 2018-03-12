@@ -12,7 +12,7 @@ let gSock = null;
 ///////////////////////////////////////////////////////////////////////////////
 
 function addKill(v) {
-  let [_1, _2, victor, victim] = v.split(',');
+  let [x, y, victor, victim] = v.split(',');
   victor = parseInt(victor, 10);
   victim = parseInt(victim, 10);
 
@@ -27,11 +27,31 @@ function addKill(v) {
   populate(victim);
 
   document.getElementById('player' + victim).classList.add('death');
+
+  highlightKill(x, y, victim);
 }
+
+
+function highlightKill(x, y, victim) {
+  if (!gHighlightKills) return;
+  if (gHighlightQueenKillsOnly && victim > 2) return;
+
+  let el = document.getElementById('highlight' + victim);
+
+  // TODO: Subtract half of the highlight element's width/height?
+  let [ay0, ax1, ay1, ax0] = gHighlightKills;
+  let l = (x / 1920) * (ax1 - ax0) + ax0;
+  let t = ((1280 - y) / 1280) * (ay1 - ay0) + ay0;
+
+  el.style = `left: ${l}px; top: ${t}px;`;
+  el.className = 'show';
+}
+
 
 window.addEventListener('animationend', event => {
   let el = event.target;
   el.classList.remove('death');
+  el.classList.remove('show');
 }, false);
 
 
@@ -122,6 +142,7 @@ function sockMessage(event) {
 
 init();
 if (gDemoMode) {
+  let demoStop = false;
   fetch('../kills.txt')
       .then(r => r.text())
       .then(str => {
@@ -133,6 +154,9 @@ if (gDemoMode) {
           if (gDeaths[1] == 3 || gDeaths[2] == 3) {
             init();
           }
+
+          if (demoStop) return;
+
           if (i < lines.length) {
             setTimeout(demoKill, Math.floor(Math.random()*750) + 250);
           } else {
@@ -141,6 +165,9 @@ if (gDemoMode) {
         }
         demoKill();
       });
+  window.addEventListener('keydown', event => {
+    if (event.key == 'Escape') demoStop = true;
+  }, false);
 } else {
   sockStart();
 }

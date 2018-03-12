@@ -87,3 +87,25 @@ html, body {
   height: 17px;
   width: 12px;
 }
+
+#highlights > div {
+  /*border: 4px solid white;*/
+  border-radius: 50%;
+  background-image: -moz-radial-gradient(circle cover, transparent 40%, green 90%);
+  background-image: -webkit-radial-gradient(circle cover, transparent 40%, green 90%);
+  background-image: -radial-gradient(circle cover, transparent 40%, green 90%);
+  display: none;
+  height: 120px;
+  position: absolute;
+  width: 120px;
+}
+#highlights .show {
+  animation: highlight-flash linear 1s;
+  display: block;
+}
+@keyframes highlight-flash {
+  0%   { opacity: 1.0; }
+  80%  { opacity: 0.8; }
+  100% { opacity: 0.0; }
+}
+
