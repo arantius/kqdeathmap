@@ -127,11 +127,19 @@ if (gDemoMode) {
       .then(str => {
         let lines = str.split('\n');
         let i = 0;
-        for (let line of lines) {
-          let m = line.match(/^kill_([a-z]+)_([0-9]+) (.*)/);
+        function demoKill() {
+          let m = lines[i++].match(/^kill_([a-z]+)_([0-9]+) (.*)/);
           addKill(m[3]);
-          if (i++ == 33) break;
+          if (gDeaths[1] == 3 || gDeaths[2] == 3) {
+            init();
+          }
+          if (i < lines.length) {
+            setTimeout(demoKill, Math.floor(Math.random()*750) + 250);
+          } else {
+            console.warn('demo done');
+          }
         }
+        demoKill();
       });
 } else {
   sockStart();
