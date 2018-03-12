@@ -55,16 +55,16 @@
 }
 
 
-.eggs {
+.queenKills {
   height: 34px;
   position: absolute;
   top: 21px;
   white-space: no-wrap;
 }
-#gold .eggs { right: 0; }
-#blue .eggs { left: 0; }
+#gold .queenKills { right: 0; }
+#blue .queenKills { left: 0; }
 
-.egg {
+.queenKill {
   background: url(../players/cracked-egg.png) no-repeat;
   display: inline-block;
   padding: 0 2px;

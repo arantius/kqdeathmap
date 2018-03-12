@@ -49,9 +49,9 @@ function init() {
 }
 
 function populate(i) {
-  let eggs = '<div class="egg">&nbsp;</div>'.repeat(gQueenKills[i]);
+  let queenKills = '<div class="queenKill">&nbsp;</div>'.repeat(gQueenKills[i]);
   document.getElementById('player' + i).innerHTML = `
-      <div class="eggs">${eggs}</div>
+      <div class="queenKills">${queenKills}</div>
       <div class="wrap">
         <sup class="k">${gKills[i]}</sup>
         /

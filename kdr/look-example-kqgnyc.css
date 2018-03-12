@@ -70,16 +70,16 @@ html, body {
 }
 
 
-.eggs {
+.queenKills {
   height: 17px;
   position: absolute;
   top: 5px;
   white-space: no-wrap;
 }
-#gold .eggs { right: 0; }
-#blue .eggs { left: 0; }
+#gold .queenKills { right: 0; }
+#blue .queenKills { left: 0; }
 
-.egg {
+.queenKill {
   background: url(../players/cracked-egg.png) no-repeat;
   background-size: 12px;
   display: inline-block;
