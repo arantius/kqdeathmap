@@ -96,6 +96,8 @@ html, body {
   background-image: -radial-gradient(circle cover, transparent 40%, green 90%);
   display: none;
   height: 120px;
+  margin-top: -72px;
+  margin-left: -62px;
   position: absolute;
   width: 120px;
 }
@@ -108,4 +110,3 @@ html, body {
   80%  { opacity: 0.8; }
   100% { opacity: 0.0; }
 }
-

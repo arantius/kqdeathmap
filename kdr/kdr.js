@@ -41,7 +41,7 @@ function highlightKill(x, y, victim) {
   // TODO: Subtract half of the highlight element's width/height?
   let [ay0, ax1, ay1, ax0] = gHighlightKills;
   let l = (x / 1920) * (ax1 - ax0) + ax0;
-  let t = ((1280 - y) / 1280) * (ay1 - ay0) + ay0;
+  let t = ((1080 - y) / 1080) * (ay1 - ay0) + ay0;
 
   el.style = `left: ${l}px; top: ${t}px;`;
   el.className = 'show';
@@ -141,7 +141,7 @@ function sockMessage(event) {
 ///////////////////////////////////////////////////////////////////////////////
 
 init();
-if (gDemoMode) {
+if (location.hash == '#demo') {
   let demoStop = false;
   fetch('../kills.txt')
       .then(r => r.text())
