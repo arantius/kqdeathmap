@@ -1,73 +1,82 @@
 /* COPY this file to "look.css".  Edit THAT file to make things look how you like. */
 
 #gold, #blue {
-  color: #bcbcbc;
-  font-family: sans-serif;
-  height: 800px;
   position: absolute;
-  top: 65px;
-  width: 140px;
+  top: 638px;
 }
 #gold {
-  left: 0;
+  left: 303px;
 }
 #blue {
-  right: -4px;  /* FvF's display isn't *quite* centered. */
-}
-
-.player {
-  background-repeat: no-repeat;
-  background-size: 74px;
-  font-size: 32px;
-  height: 160px;
-  position: relative;
-  width: 140px;
-}
-#gold .player {
-  background-position: top 35px left 10px;
-}
-#blue .player {
-  background-position: top 35px right 10px;
-}
-#gold #player1 {
-  background-size: 78px;
-  background-position: top 25px left 10px;
-}
-#blue #player2 {
-  background-size: 78px;
-  background-position: top 25px right 10px;
-}
-
-.player .wrap {
-  padding-top: 80px;
-}
-#gold .player .wrap {
+  left: 799px;
   text-align: right;
 }
 
-
-.player.death {
-  animation: death-flash linear 1s;
+.player {
+  background-position: -14px -26px;
+  background-repeat: no-repeat;
+  background-size: 52px;
+  display: inline-block;
+  margin: 16px 20px 0 15px;
+  height: 18px;
+  position: relative;
+  width: 25px;
 }
-@keyframes death-flash {
-  0%   { background-color: rgba(255, 0, 0, 0.8); }
-  100% { background-color: rgba(255, 0, 0, 0.0); }
+#gold #player1,
+#blue #player2
+{
+  background-size: 80px;
+  background-position: -27px 0;
 }
 
+#blue .player {
+  background-position: -13px -26px;
+}
 
-.queenKills {
-  height: 34px;
+.player .wrap {
+  color: #ececec;
+  left: 0px;
   position: absolute;
-  top: 21px;
-  white-space: no-wrap;
+  top: -8px;
+  width: 40px;
 }
-#gold .queenKills { right: 0; }
-#blue .queenKills { left: 0; }
+.player .k, .player .d {
+  font-family: sans-serif;
+  font-size: 10px;
+}
+.player .k {
+}
+.player .d {
+}
 
+#gold .player .wrap {
+  left: 27px;
+  top: -2px;
+}
+#blue .player {
+}
+#blue .player .wrap {
+  left: -44px;
+  top: -2px;
+}
+
+
+/*
+.queenKills {
+  bottom: 0;
+  height: 12px;
+  overflow: hidden;
+  position: absolute;
+  text-align: center;
+  vertical-align: baseline;
+  width: 38px;
+}
 .queenKill {
   background: url(../players/cracked-egg.png) no-repeat;
+  background-size: 12px;
   display: inline-block;
   padding: 0 2px;
-  height: 34px;
-  width: 24px;
+  width: 8px;
 }
+*/
+.queenKills { display: none; }
