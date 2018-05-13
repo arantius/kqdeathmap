@@ -5,7 +5,7 @@ let sockDebug = false;
 
 let gDeaths = Array(11).fill(0);
 let gKills = Array(11).fill(0);
-let gPlayers = Array(11).fill("");
+let gPlayers = Array(11).fill('');
 let gQueenKills = Array(11).fill(0);
 let gSock = null;
 
@@ -56,8 +56,9 @@ window.addEventListener('animationend', event => {
 
 
 function init() {
-  document.body.classList.remove('warriors');
   document.body.classList.remove('bears');
+  document.body.classList.remove('icons');
+  document.body.classList.remove('warriors');
   document.body.classList.add(gSpriteType);
 
   gDeaths = Array(11).fill(0);
@@ -142,6 +143,11 @@ function sockMessage(event) {
 
 init();
 if (location.hash == '#demo') {
+  gPlayers = ['',
+      'alpha', 'beta', 'gamma', 'delta', 'epsilon',
+      'zêta', 'êta', 'thêta', 'iota', 'kappa',
+      ];
+  init();
   let demoStop = false;
   fetch('../kills.txt')
       .then(r => r.text())

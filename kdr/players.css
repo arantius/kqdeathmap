@@ -18,3 +18,14 @@
 .bears #player8 { background-image: url(../players/blue-bear-skulls.png); }
 .bears #player9 { background-image: url(../players/gold-bear-checks.png); }
 .bears #player10 { background-image: url(../players/blue-bear-checks.png); }
+
+.icons #player1 { background-image: url(../players/gold-icon-queen.png); }
+.icons #player2 { background-image: url(../players/blue-icon-queen.png); }
+.icons #player3 { background-image: url(../players/gold-icon-stripes.png); }
+.icons #player4 { background-image: url(../players/blue-icon-stripes.png); }
+.icons #player5 { background-image: url(../players/gold-icon-abs.png); }
+.icons #player6 { background-image: url(../players/blue-icon-abs.png); }
+.icons #player7 { background-image: url(../players/gold-icon-skulls.png); }
+.icons #player8 { background-image: url(../players/blue-icon-skulls.png); }
+.icons #player9 { background-image: url(../players/gold-icon-checks.png); }
+.icons #player10 { background-image: url(../players/blue-icon-checks.png); }
