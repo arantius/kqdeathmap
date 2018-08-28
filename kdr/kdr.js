@@ -146,7 +146,7 @@ function sockMessage(event) {
       document.getElementById('player' + v[3]).classList.remove('bear');
     }
   default:
-    console.log('unhandled message: ', k, '=', v);
+    //console.log('unhandled message: ', k, '=', v);
     break;
   }
 };
@@ -154,30 +154,26 @@ function sockMessage(event) {
 ///////////////////////////////////////////////////////////////////////////////
 
 init();
-if (location.hash == '#demo') {
-  gPlayers = ['',
-      'alpha', 'beta', 'gamma', 'delta', 'epsilon',
-      'zêta', 'êta', 'thêta', 'iota', 'kappa',
-      ];
+if (location.search == '?demo') {
   init();
   let demoStop = false;
-  fetch('../kills.txt')
+  fetch('../events.txt')
       .then(r => r.text())
       .then(str => {
         let lines = str.split('\n');
         let i = 0;
         function demoKill() {
-          let m = lines[i++].match(/^kill_([a-z]+)_([0-9]+) (.*)/);
-          addKill(m[3]);
-          if (gDeaths[1] == 3 || gDeaths[2] == 3) {
-            init();
-          }
+          let m = lines[i++].match(/^([0-9]+) = (.*)/);
+          //console.log('demo event?', lines[i], m);
+          let tm = parseInt(m[1]);
+          sockMessage({'data': m[2]});
 
           if (demoStop) return;
 
-          if (i < lines.length) {
-            setTimeout(demoKill, Math.floor(Math.random()*750) + 250);
-          } else {
+          try {
+            let tmNext = parseInt(lines[i+1]);
+            setTimeout(demoKill, Math.floor((tmNext - tm) / 10));
+          } catch (e) {
             console.warn('demo done');
           }
         }
