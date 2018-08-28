@@ -14,7 +14,12 @@ let gStartOffset = new Date(1970, 1, 1, 0, 0, 0, 0).valueOf();
 ///////////////////////////////////////////////////////////////////////////////
 
 function addKill(v) {
-  let [x, y, victor, victim] = v.split(',');
+  let [x, y, victor, victim, victimKind] = v.split(',');
+
+  if (gIgnoreBearKills && victimKind == 'Worker') return;
+  let victimEl = document.getElementById('player' + victim)
+  if (gIgnoreBearDeaths && victimEl.classList.contains('bear')) return;
+
   victor = parseInt(victor, 10);
   victim = parseInt(victim, 10);
 
@@ -28,7 +33,10 @@ function addKill(v) {
   gDeaths[victim]++;
   populate(victim);
 
-  document.getElementById('player' + victim).classList.add('death');
+  if (victim > 2) {  // Ignore Queens for bear reset.
+    victimEl.classList.add('bear');
+  }
+  victimEl.classList.add('death');
 
   highlightKill(x, y, victim);
 }
@@ -58,17 +66,13 @@ window.addEventListener('animationend', event => {
 
 
 function init() {
-  document.body.classList.remove('bears');
-  document.body.classList.remove('icons');
-  document.body.classList.remove('warriors');
-  document.body.classList.add(gSpriteType);
-
   gDeaths = Array(11).fill(0);
   gKills = Array(11).fill(0);
   gQueenKills = Array(11).fill(0);
   for (let i = 1; i <= 10; i++) {
     populate(i);
   }
+  gStart = (new Date()).valueOf();
 }
 
 function populate(i) {
@@ -97,7 +101,7 @@ function sockOpen(event) {
 function sockSend(k, v) {
   let vs = JSON.stringify(v);
   let d = `![k[${k}],v[${vs}]]!`;
-  if (sockDebug) console.log('>>> WS sending:', d);
+  if (sockDebug && k != 'im alive') console.log('>>> WS sending:', d);
   gSock.send(d);
 }
 function sockStart() {
@@ -110,13 +114,14 @@ function sockStart() {
 
 
 function sockMessage(event) {
-  if (sockDebug) console.log('<<< WS received:', event.data);
   let m = event.data.match(/!\[k\[(.*?)\],v\[(.*)?\]\]!/);
   if (!m) {
     console.warn('Could not parse socket message data!\n', event);
     return;
   }
   let [_, k, v] = m;
+  if (sockDebug && k != 'alive') console.log('<<< WS received:', event.data);
+
   switch (k) {
   case 'connected':
     if (sockDebug) console.log('connected; ', event.data);
@@ -132,9 +137,14 @@ function sockMessage(event) {
   case 'playernames':
     if (sockDebug) console.log('players:', new Date(), v);
     localStorage.setItem(`${new Date().valueOf()}_playerNames`, v);
-    gPlayers = [""].concat(v.split(','));
+    gPlayers = [''].concat(v.split(','));
     init();
     break;
+  case 'useMaiden':
+    v = v.split(',');
+    if (v[2] == 'maiden_wings') {
+      document.getElementById('player' + v[3]).classList.remove('bear');
+    }
   default:
     console.log('unhandled message: ', k, '=', v);
     break;
