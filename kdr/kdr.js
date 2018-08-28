@@ -3,6 +3,7 @@ const machineId = Math.round(Math.random() * 9999 + 1);
 
 let sockDebug = false;
 
+let gBerries = Array(11).fill(0);
 let gDeaths = Array(11).fill(0);
 let gKills = Array(11).fill(0);
 let gPlayers = Array(11).fill('');
@@ -13,7 +14,14 @@ let gStartOffset = new Date(1970, 1, 1, 0, 0, 0, 0).valueOf();
 
 ///////////////////////////////////////////////////////////////////////////////
 
-function addKill(v) {
+function handleBerryDeposit(v) {
+  let [x, y, player] = v.split(',');
+  gBerries[player]++;
+  populate(player);
+}
+
+
+function handlePlayerKill(v) {
   let [x, y, victor, victim, victimKind] = v.split(',');
 
   if (gIgnoreBearKills && victimKind == 'Worker') return;
@@ -41,6 +49,7 @@ function addKill(v) {
   highlightKill(x, y, victim);
 }
 
+///////////////////////////////////////////////////////////////////////////////
 
 function highlightKill(x, y, victim) {
   if (!gHighlightKills) return;
@@ -66,6 +75,7 @@ window.addEventListener('animationend', event => {
 
 
 function init() {
+  gBerries = Array(11).fill(0);
   gDeaths = Array(11).fill(0);
   gKills = Array(11).fill(0);
   gQueenKills = Array(11).fill(0);
@@ -76,8 +86,10 @@ function init() {
 }
 
 function populate(i) {
+  let berries = '<b></b>'.repeat(gBerries[i]);
   let queenKills = '<div class="queenKill">&nbsp;</div>'.repeat(gQueenKills[i]);
   document.getElementById('player' + i).innerHTML = `
+      <div class="berries">${berries}</div>
       <div class="queenKills">${queenKills}</div>
       <div class="wrap">
         <sup class="k">${gKills[i]}</sup>
@@ -129,14 +141,13 @@ function sockMessage(event) {
   case 'alive':
     sockSend('im alive', null);
     break;
+  case 'berryDeposit':
+    handleBerryDeposit(v);
+    break;
   case 'playerKill':
-    if (sockDebug) console.log('kill:', v);
-    localStorage.setItem(`${new Date().valueOf()}_playerKill`, v);
-    addKill(v);
+    handlePlayerKill(v);
     break;
   case 'playernames':
-    if (sockDebug) console.log('players:', new Date(), v);
-    localStorage.setItem(`${new Date().valueOf()}_playerNames`, v);
     gPlayers = [''].concat(v.split(','));
     init();
     break;
