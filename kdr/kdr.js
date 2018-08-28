@@ -8,6 +8,8 @@ let gKills = Array(11).fill(0);
 let gPlayers = Array(11).fill('');
 let gQueenKills = Array(11).fill(0);
 let gSock = null;
+let gStart = (new Date()).valueOf();
+let gStartOffset = new Date(1970, 1, 1, 0, 0, 0, 0).valueOf();
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -177,3 +179,10 @@ if (location.hash == '#demo') {
 } else {
   sockStart();
 }
+
+setInterval(() => {
+  let ms = (new Date()).valueOf() - gStart;
+  var d=new Date(ms + gStartOffset).toString()
+      .replace(/.*([0-9][0-9]:[0-9][0-9]).*/, '$1');
+  document.getElementById('clock').innerText = d;
+}, 950);
