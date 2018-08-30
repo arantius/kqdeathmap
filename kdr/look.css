@@ -1,0 +1,136 @@
+/* COPY this file to "look.css".  Edit THAT file to make things look how you like. */
+
+html, body {
+  height: 720px !omportant;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  width: 1280px !important;
+}
+
+#gold, #blue {
+  color: #bcbcbc;
+  font-family: sans-serif;
+  height: 550px;
+  position: absolute;
+  top: 60px;
+  width: 90px;
+}
+#gold { left: 0; }
+#blue { right: 0; }
+
+.player {
+  background-repeat: no-repeat;
+  font-size: 20px;
+  height: 110px;
+  position: relative;
+  width: 90px;
+}
+#gold .player {
+  background-position: top 8px left 10px;
+}
+#blue .player {
+  background-position: top 8px right 10px;
+}
+#gold #player1 {
+  background-position: top 5px left 10px;
+}
+#blue #player2 {
+  background-position: top 5px right 10px;
+}
+
+
+.player .wrap {
+  padding-top: 26px;
+}
+#gold .player .wrap {
+  text-align: right;
+}
+#player1 .wrap, #player2 .wrap {
+  padding-top: 24px;
+}
+
+
+.player .name {
+	font-size: 12px;
+	overflow: hidden;
+	text-align: center;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+  width: 90px;
+}
+
+.player .berries {
+  line-height: 9px;
+  padding: 0 20px;
+  position: absolute;
+  text-align: center;
+  top: 67px;
+  width: 50px;
+}
+.player .berries b {
+  background: url(../img/berry.png);
+  background-size: 6px 6px;
+  display: inline-block;
+  height: 6px;
+  margin: 1px;
+  width: 6px;
+}
+
+.player.death {
+  animation: death-flash linear 1s;
+}
+@keyframes death-flash {
+  0%   { background-color: rgba(255, 0, 0, 0.8); }
+  100% { background-color: rgba(255, 0, 0, 0.0); }
+}
+
+
+.queenKills {
+  height: 17px;
+  position: absolute;
+  top: 5px;
+  white-space: no-wrap;
+}
+#gold .queenKills { right: 0; }
+#blue .queenKills { left: 0; }
+
+.queenKill {
+  background: url(../players/cracked-egg.png) no-repeat;
+  background-size: 12px;
+  display: inline-block;
+  padding: 0 1px;
+  height: 17px;
+  width: 12px;
+}
+
+#highlights > div {
+  /*border: 4px solid white;*/
+  border-radius: 50%;
+  background-image: -moz-radial-gradient(circle cover, transparent 40%, green 90%);
+  background-image: -webkit-radial-gradient(circle cover, transparent 40%, green 90%);
+  background-image: -radial-gradient(circle cover, transparent 40%, green 90%);
+  display: none;
+  height: 120px;
+  margin-top: -72px;
+  margin-left: -62px;
+  position: absolute;
+  width: 120px;
+}
+#highlights .show {
+  animation: highlight-flash linear 1s;
+  display: block;
+}
+@keyframes highlight-flash {
+  0%   { opacity: 1.0; }
+  80%  { opacity: 0.8; }
+  100% { opacity: 0.0; }
+}
+
+#clock {
+	font-family: sans-serif;
+	top: 686px;
+	position: absolute;
+	text-align: center;
+	width: 1280px;
+}
