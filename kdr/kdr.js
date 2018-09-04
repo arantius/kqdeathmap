@@ -80,10 +80,12 @@ function init() {
   gKills = Array(11).fill(0);
   gQueenKills = Array(11).fill(0);
   for (let i = 1; i <= 10; i++) {
+    document.getElementById('player' + i).classList.add('bear');
     populate(i);
   }
   gStart = (new Date()).valueOf();
 }
+
 
 function populate(i) {
   let berries = '<b></b>'.repeat(gBerries[i]);
