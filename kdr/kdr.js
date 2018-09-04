@@ -141,6 +141,7 @@ function sockMessage(event) {
   case 'alive':
     sockSend('im alive', null);
     break;
+  case 'berryKickIn':
   case 'berryDeposit':
     handleBerryDeposit(v);
     break;
