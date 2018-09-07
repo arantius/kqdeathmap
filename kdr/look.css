@@ -77,6 +77,17 @@ html, body {
   width: 6px;
 }
 
+.player .snail {
+  background-color: #ea54cc;
+  clear: both;
+  height: 2px;
+  position: absolute;
+  top: 86px;
+}
+#gold .player .snail { left: 0; }
+#blue .player .snail { right: 0; }
+
+
 .player.death {
   animation: death-flash linear 1s;
 }

@@ -7,6 +7,8 @@ let gBerries = Array(11).fill(0);
 let gDeaths = Array(11).fill(0);
 let gKills = Array(11).fill(0);
 let gPlayers = Array(11).fill('');
+let gSnailStart = Array(11).fill(0);
+let gSnailYardage = Array(11).fill(0);
 let gQueenKills = Array(11).fill(0);
 let gSock = null;
 let gStart = (new Date()).valueOf();
@@ -18,6 +20,20 @@ function handleBerryDeposit(v) {
   let [x, y, player] = v.split(',');
   gBerries[player]++;
   populate(player);
+}
+
+
+function handleGetOffSnail(v) {
+  let [x, y, _, player] = v.split(',');
+  gSnailYardage[player] += Math.abs(parseInt(x) - gSnailStart[player]);
+  gSnailStart[player] = 0;
+  populate(player);
+}
+
+
+function handleGetOnSnail(v) {
+  let [x, y, player] = v.split(',');
+  gSnailStart[player] = parseInt(x);
 }
 
 
@@ -78,18 +94,29 @@ function init() {
   gBerries = Array(11).fill(0);
   gDeaths = Array(11).fill(0);
   gKills = Array(11).fill(0);
+  gSnailStart = Array(11).fill(0);
+  gSnailYardage = Array(11).fill(0);
+  gStart = (new Date()).valueOf();
   gQueenKills = Array(11).fill(0);
+
   for (let i = 1; i <= 10; i++) {
     document.getElementById('player' + i).classList.add('bear');
     populate(i);
   }
-  gStart = (new Date()).valueOf();
 }
 
 
 function populate(i) {
   let berries = '<b></b>'.repeat(gBerries[i]);
   let queenKills = '<div class="queenKill">&nbsp;</div>'.repeat(gQueenKills[i]);
+  let snailProgress = 0;
+
+  if (gSnailYardage[i] > 0) {
+    // TODO: Correct max value, per map, not just 960.
+    let maxYardage = Math.max(960, ...gSnailYardage);
+    snailProgress = gSnailYardage[i] / maxYardage;
+  }
+
   document.getElementById('player' + i).innerHTML = `
       <div class="berries">${berries}</div>
       <div class="queenKills">${queenKills}</div>
@@ -98,7 +125,8 @@ function populate(i) {
         /
         <sub class="d">${gDeaths[i]}</sub>
       </div>
-      <div class="name">${gPlayers[i]}</div>`;
+      <div class="name">${gPlayers[i]}</div>
+      <div class="snail" style="width: ${snailProgress*90}px"></div>`;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -146,6 +174,15 @@ function sockMessage(event) {
   case 'berryKickIn':
   case 'berryDeposit':
     handleBerryDeposit(v);
+    break;
+  // At least in beta, the ": " is in these key names!
+  case 'getOffSnail':
+  case 'getOffSnail: ':
+    handleGetOffSnail(v);
+    break;
+  case 'getOnSnail':
+  case 'getOnSnail: ':
+    handleGetOnSnail(v);
     break;
   case 'playerKill':
     handlePlayerKill(v);
