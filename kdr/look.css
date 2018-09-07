@@ -26,18 +26,14 @@ html, body {
   position: relative;
   width: 90px;
 }
-#gold .player {
-  background-position: top 8px left 10px;
-}
-#blue .player {
-  background-position: top 8px right 10px;
-}
-#gold #player1 {
-  background-position: top 5px left 10px;
-}
-#blue #player2 {
-  background-position: top 5px right 10px;
-}
+#gold .player[caste="bot"] { background-position: top 8px left 14px; }
+#blue .player[caste="bot"] { background-position: top 8px right 14px; }
+#gold .player[caste="bear"] { background-position: top 10px left 14px; }
+#blue .player[caste="bear"] { background-position: top 10px right 14px; }
+#gold .player[caste="warrior"] { background-position: top 8px left 4px; }
+#blue .player[caste="warrior"] { background-position: top 8px right 4px; }
+#gold #player1 { background-position: top 5px left 4px; }
+#blue #player2 { background-position: top 5px right 4px; }
 
 
 .player .wrap {
@@ -82,7 +78,7 @@ html, body {
   clear: both;
   height: 2px;
   position: absolute;
-  top: 86px;
+  top: 90px;
 }
 #gold .player .snail { left: 0; }
 #blue .player .snail { right: 0; }

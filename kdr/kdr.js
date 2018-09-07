@@ -5,6 +5,7 @@ let sockDebug = false;
 
 let gBerries = Array(11).fill(0);
 let gDeaths = Array(11).fill(0);
+let gIsHuman = Array(11).fill(false);
 let gKills = Array(11).fill(0);
 let gPlayers = Array(11).fill('');
 let gSnailStart = Array(11).fill(0);
@@ -56,12 +57,32 @@ function handlePlayerKill(v) {
   gDeaths[victim]++;
   populate(victim);
 
-  if (victim > 2) {  // Ignore Queens for bear reset.
-    victimEl.classList.add('bear');
-  }
+  if (victimEl.caste == 'warrior') victimEl.setAttribute('caste', 'bear');
   victimEl.classList.add('death');
 
   highlightKill(x, y, victim);
+}
+
+
+function handleSpawn(v) {
+  let [player, isHuman] = v.split(',');
+  gIsHuman[player] = !(isHuman == 'True');
+
+  if (parseInt(player) > 2) {
+    let playerEl = document.getElementById('player' + player);
+    playerEl.setAttribute('caste', isHuman ? 'bear' : 'bot');
+  }
+
+  populate(player);
+}
+
+
+function handleUseMaiden(v) {
+  let [x, y, gateType, player] = v.split(',');
+  if (gateType == 'maiden_wings') {
+    let playerEl = document.getElementById('player' + player)
+    playerEl.setAttribute('caste', 'warrior');
+  }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -99,7 +120,10 @@ function init() {
   gQueenKills = Array(11).fill(0);
 
   for (let i = 1; i <= 10; i++) {
-    document.getElementById('player' + i).classList.add('bear');
+    if (i > 2) {
+      let playerEl = document.getElementById('player' + i);
+      playerEl.setAttribute('caste', 'bot');
+    }
     populate(i);
   }
 }
@@ -188,13 +212,15 @@ function sockMessage(event) {
     break;
   case 'playernames':
     gPlayers = [''].concat(v.split(','));
+    break;
+  case 'gamestart':
     init();
     break;
+  case 'spawn':
+    handleSpawn(v);
+    break;
   case 'useMaiden':
-    v = v.split(',');
-    if (v[2] == 'maiden_wings') {
-      document.getElementById('player' + v[3]).classList.remove('bear');
-    }
+    handleUseMaiden(v);
   default:
     //console.log('unhandled message: ', k, '=', v);
     break;
@@ -212,9 +238,8 @@ if (location.search == '?demo') {
       .then(str => {
         let lines = str.split('\n');
         let i = 0;
-        function demoKill() {
+        function demoEvent() {
           let m = lines[i++].match(/^([0-9]+) = (.*)/);
-          //console.log('demo event?', lines[i], m);
           let tm = parseInt(m[1]);
           sockMessage({'data': m[2]});
 
@@ -222,21 +247,24 @@ if (location.search == '?demo') {
 
           try {
             let tmNext = parseInt(lines[i+1]);
-            setTimeout(demoKill, Math.floor((tmNext - tm) / 10));
+            setTimeout(demoEvent, Math.floor((tmNext - tm) / 10));
           } catch (e) {
             console.warn('demo done');
           }
         }
-        demoKill();
+        demoEvent();
       });
   window.addEventListener('keydown', event => {
-    if (event.key == 'Escape') demoStop = true;
+    if (event.key == 'Escape') {
+      demoStop = true;
+      clearInterval(clockTimer);
+    }
   }, false);
 } else {
   sockStart();
 }
 
-setInterval(() => {
+let clockTimer = setInterval(() => {
   let ms = (new Date()).valueOf() - gStart;
   var d=new Date(ms + gStartOffset).toString()
       .replace(/.*([0-9][0-9]:[0-9][0-9]).*/, '$1');
