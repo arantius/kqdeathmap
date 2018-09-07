@@ -64,6 +64,14 @@ function handlePlayerKill(v) {
 }
 
 
+function handleSnailEat(v) {
+  let [x, y, rider, snack] = v.split(',');
+  console.log('snail eat', gSnailStart[rider], x);
+  gSnailYardage[rider] += Math.abs(parseInt(x) - gSnailStart[rider]);
+  gSnailStart[rider] = x;
+  populate(rider);
+}
+
 function handleSpawn(v) {
   let [player, isHuman] = v.split(',');
   gIsHuman[player] = !(isHuman == 'True');
@@ -218,6 +226,9 @@ function sockMessage(event) {
     break;
   case 'spawn':
     handleSpawn(v);
+    break;
+  case 'snailEat':
+    handleSnailEat(v);
     break;
   case 'useMaiden':
     handleUseMaiden(v);
