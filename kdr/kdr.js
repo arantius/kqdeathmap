@@ -41,8 +41,7 @@ function handlePlayerKill(v) {
   let [x, y, victor, victim, victimKind] = v.split(',');
 
   if (gIgnoreBearKills && victimKind == 'Worker') return;
-  let victimEl = document.getElementById('player' + victim)
-  if (gIgnoreBearDeaths && victimEl.classList.contains('bear')) return;
+  let victimEl = document.getElementById('player' + victim);
 
   victor = parseInt(victor, 10);
   victim = parseInt(victim, 10);

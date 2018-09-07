@@ -2,7 +2,6 @@
 var gHost = 'kq.local';
 
 var gIgnoreBearKills = true;
-var gIgnoreBearDeaths = true;
 
 // Either "false", do not enable, or a 4-element array, where the values
 // are the top, right, bottom, and left edge of the game video, overall in
