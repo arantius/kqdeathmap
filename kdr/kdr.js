@@ -40,10 +40,13 @@ function handleGetOnSnail(v) {
 
 function handlePlayerKill(v) {
   let [x, y, victor, victim, victimKind] = v.split(',');
-
-  if (gIgnoreBearKills && victimKind == 'Worker') return;
   let victimEl = document.getElementById('player' + victim);
 
+  if (victimEl.caste != 'bot' && victimEl.caste != 'queen') {
+    victimEl.setAttribute('caste', 'bear');
+  }
+
+  if (gIgnoreBearKills && victimKind == 'Worker') return;
   victor = parseInt(victor, 10);
   victim = parseInt(victim, 10);
 
@@ -57,7 +60,6 @@ function handlePlayerKill(v) {
   gDeaths[victim]++;
   populate(victim);
 
-  if (victimEl.caste == 'warrior') victimEl.setAttribute('caste', 'bear');
   victimEl.classList.add('death');
 
   highlightKill(x, y, victim);
