@@ -246,7 +246,7 @@ init();
 if (location.search == '?demo') {
   init();
   let demoStop = false;
-  fetch('../events.txt')
+  fetch('events.txt')
       .then(r => r.text())
       .then(str => {
         let lines = str.split('\n');
