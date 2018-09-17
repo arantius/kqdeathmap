@@ -32,12 +32,4 @@ storage.  Empty out the box and press this button to reset the saved data.
 
 # Kill/Death Ratio Overlay
 
-All in the `kdr` folder:
-
-1. *Copy* the `settings-default.js` file to `settings-custom.js`.
-   Edit your `settings-custom.js` to change behavior.
-2. *Copy* a `look-example-*.css` file to `look.css`.
-   Edit that `look.css` file to make things look good for your stream layout.
-   * It would make sense to open `kdr.html` in a regular browser now, and
-     test that it works and looks good that way!
-2. Add a browser source for OBS, and point it to `kdr.html`.
+Now moved to the `kdr` branch.
