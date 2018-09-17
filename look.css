@@ -1,7 +1,7 @@
 /* COPY this file to "look.css".  Edit THAT file to make things look how you like. */
 
 html, body {
-  height: 720px !omportant;
+  height: 720px !important;
   margin: 0;
   overflow: hidden;
   padding: 0;
