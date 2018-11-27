@@ -24,6 +24,14 @@ function handleBerryDeposit(v) {
 }
 
 
+function handleBerryKickIn(v) {
+  // TODO! Estimate which hive, by location.  Until then: bugs!
+  let [x, y, player] = v.split(',');
+  gBerries[player]++;
+  populate(player);
+}
+
+
 function handleGetOffSnail(v) {
   let [x, y, _, player] = v.split(',');
   gSnailYardage[player] += Math.abs(parseInt(x) - gSnailStart[player]);
@@ -205,6 +213,8 @@ function sockMessage(event) {
     sockSend('im alive', null);
     break;
   case 'berryKickIn':
+    handleBerryKickIn(v);
+    break;
   case 'berryDeposit':
     handleBerryDeposit(v);
     break;
